@@ -118,18 +118,6 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
       title <- plain_title
       temp[is.na(temp["Legend"]), ]["Legend"] <- temp[is.na(temp["Legend"]), ]["line_selection"]
     }
-    if (demographic == "education_attainment") {
-      temp[temp[["line_selection"]] == 1, ][["Legend"]] <- "Some high school"
-      temp[temp[["line_selection"]] == 2, ][["Legend"]] <- "High school diploma"
-      temp[temp[["line_selection"]] == 3, ][["Legend"]] <- "Some college"
-      temp[temp[["line_selection"]] == 4, ][["Legend"]] <- "Four year degree"
-      temp[temp[["line_selection"]] == 5, ][["Legend"]] <- "Postgraduate degree"
-      temp[["Legend"]] <- factor(temp[["Legend"]],
-                                 levels = c("Some high school",
-                                            "High school diploma",
-                                            "Some college", "Four year degree",
-                                            "Postgraduate degree"))
-    }
     p <- ggplot2::ggplot(temp, ggplot2::aes(x = age, y = totalcorrect, col = Legend)) +
       my_theme() +
       ggplot2::labs(x = "Age", y = "Score", title = title)
