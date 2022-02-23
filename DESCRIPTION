@@ -1,0 +1,11 @@
+Package: mcplot
+Title: Plot MindCrowd Data
+Version: 0.0.0.9000
+Authors@R: 
+    person("Megan", "Johnson", , "mjohnson@tgen.org", role = c("aut", "cre"))
+Description: This package allows for easy reproduction and auto generation of frequently requested plots.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
