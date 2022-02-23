@@ -65,8 +65,7 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE){
     gganimate::transition_time(month) +
     ggplot2::labs(title = "Week: {frame_time}",
     subtitle = "n: {get_n(frame_time)}") +
-    ggplot2::scale_fill_manual(values = mcdata::mc_palette()) +
-    ggplot2::scale_color_manual(values = mcdata::mc_palette()) +
+    ggplot2::scale_colour_manual(values = mcdata::mc_palette()) +
     ggplot2::ylim(0,36)
   name <- paste0(demographic, "_error_bar_animation.png")
   animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
