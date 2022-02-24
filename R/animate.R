@@ -58,7 +58,7 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE) {
   }
   pd <- ggplot2::position_dodge(0.1)
   mc_full_line[["group"]] <- as.factor(mc_full_line[["group"]])
-  p<- ggplot2::ggplot(mc_full_line,
+  p <- ggplot2::ggplot(mc_full_line,
                       ggplot2::aes(x = age, y = mean, colour = group, group = group)) +
     ggplot2::geom_errorbar(ggplot2::aes(ymin = lower_ci, ymax = upper_ci), width = 0.1, position=pd) +
     ggplot2::geom_line(position=pd) +
@@ -69,7 +69,8 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE) {
     ggplot2::labs(title = "Week: {frame_time}",
     subtitle = "n: {get_n(frame_time)}") +
     ggplot2::scale_colour_manual(values = mcdata::mc_palette()) +
-    ggplot2::ylim(0,36)
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(n = 10), limits = c(0,36)) +
+    ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5))
   name <- paste0(demographic, "_error_bar_animation.png")
   animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
   gganimate::anim_save(paste0(demographic, "_error_bar_weekly.gif"), animation)
