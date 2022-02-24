@@ -11,7 +11,7 @@ plot_model_results(
   demographic_subset = FALSE,
   smooth = FALSE,
   game = "totalcorrect",
-  model_results = mc_model_results
+  model_results = NA
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ plot_model_results(
 
 \item{game}{(optional) Default = "totalcorrect". For SVRT results, use "medianSVRT_no_outliers"}
 
-\item{model_results}{mc_model output object}
+\item{model_results}{(optional) mc_model output object}
 }
 \description{
 Plot model results line plots by demographic

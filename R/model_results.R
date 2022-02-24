@@ -1,7 +1,7 @@
 #' Split model results labels for plotting
 #'
 #' @param model mcmodel results
-split_demo <- function(model){
+split_demo <- function(model) {
   model["Demographic"] <- NA
   model["Subset"] <- NA
   model[model["term"] == "age", ]["Demographic"] <- "age"
@@ -60,7 +60,7 @@ split_demo <- function(model){
   model[model["term"] == "strokeTRUE", ]["Subset"] <- "TRUE"
   model[model["term"] == "drug_abuseTRUE", ]["Demographic"] <- "drug_abuse"
   model[model["term"] == "drug_abuseTRUE", ]["Subset"] <- "TRUE"
-  model[["Legend"]] = paste0(model[["Subset"]], "\np: ",formatC(model[["Pr(>|t|)"]], format = "e", digits = 2), "\nEffect Size: ",
+  model[["Legend"]] <- paste0(model[["Subset"]], "\np: ", formatC(model[["Pr(>|t|)"]], format = "e", digits = 2), "\nEffect Size: ",
                              format(model[["Estimate"]], digits = 1))
   model
 }
@@ -79,7 +79,7 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
                                      demographic_subset = FALSE, smooth = FALSE,
                                      game = "totalcorrect",
                                      model_results = NA) {
-  if (is.na(model_results)){
+  if (is.na(model_results)) {
     model_results <- mcdata::mc_model(mc_filtered)
   }
   if (game == "medianSVRT_no_outliers") {
@@ -136,4 +136,3 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
   ggplot2::ggsave(name, p, "png")
   return(p)
 }
-

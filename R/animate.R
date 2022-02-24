@@ -3,19 +3,21 @@
 #' @param mc An mc object from the mcdata package.
 #' @param demographic demographic to plot
 
-animate_error_bar <- function(mc_filtered, demographic = FALSE){
-  mc_filtered <- mc_filtered[mc_filtered[["age"]] <= 90,]
-  for (month in as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))){
+animate_error_bar <- function(mc_filtered, demographic = FALSE) {
+  mc_filtered <- mc_filtered[mc_filtered[["age"]] <= 90, ]
+  for (month in as.character(seq(lubridate::ymd("2013-02-01"),
+                                 lubridate::floor_date(Sys.Date(), "month"),
+                                 by = "week"))) {
     print(month)
     mc <- mc_filtered[mc_filtered[["created_at"]] <= (lubridate::ymd(month)), ]
     n <- nrow(mc)
-    if (demographic == FALSE){
+    if (demographic == FALSE) {
       temp <- mc %>%
         dplyr::filter(., !is.na(age)) %>%
         dplyr::group_by(age) %>%
         dplyr::summarise(mean = mean(totalcorrect),
                   sd = sd(totalcorrect),
-                  n = n()) %>%
+                  n = dplyr::n()) %>%
         dplyr::mutate(se = sd / sqrt(n),
                lower_ci = mean - qt(1 - (0.05 / 2), n - 1) * se,
                upper_ci = mean + qt(1 - (0.05 / 2), n - 1) * se,
@@ -23,21 +25,22 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE){
                month = as.Date(month))
       temp[["total_n"]] <-  n
     } else {
-      for (option in unique(mc[[demographic]])){
-        if (!is.na(option) && option != "unknown"){
-          temp <- mc[mc[[demographic]] == option,] %>%
+      for (option in unique(mc[[demographic]])) {
+        if (!is.na(option) && option != "unknown") {
+          temp <- mc[mc[[demographic]] == option, ] %>%
             dplyr::filter(., !is.na(age)) %>%
             dplyr::group_by(age) %>%
             dplyr::summarise(mean = mean(totalcorrect),
                       sd = sd(totalcorrect),
-                      n = n()) %>%
+                      n = dplyr::n()) %>%
             dplyr::mutate(se = sd / sqrt(n),
                    lower_ci = mean - qt(1 - (0.05 / 2), n - 1) * se,
                    upper_ci = mean + qt(1 - (0.05 / 2), n - 1) * se,
                    group = option,
                    month = as.Date(month))
           temp[["total_n"]] <-  n
-          ifelse(exists("mc_full_line"), mc_full_line <- rbind(mc_full_line, temp),
+          ifelse(exists("mc_full_line"),
+                 mc_full_line <- rbind(mc_full_line, temp),
                  mc_full_line <- temp)
         }
       }
