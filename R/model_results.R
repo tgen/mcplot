@@ -119,7 +119,6 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
       temp[is.na(temp["Legend"]), ]["Legend"] <- temp[is.na(temp["Legend"]), ]["line_selection"]
     }
     p <- ggplot2::ggplot(temp, ggplot2::aes(x = age, y = totalcorrect, col = Legend)) +
-      my_theme() +
       ggplot2::labs(x = "Age", y = "Score", title = title)
     ifelse(smooth == TRUE,
            p <- p + ggplot2::geom_smooth(ggplot2::aes(group = Legend)),
@@ -132,6 +131,11 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
     ggplot2::theme(legend.spacing.y = ggplot2::unit(0.2, "cm")) +
     ggplot2::scale_fill_manual(values = mcdata::mc_palette()) +
     ggplot2::scale_color_manual(values = mcdata::mc_palette())
+  if (game == "totalcorrect"){
+    p <- p + my_theme()
+  } else {
+    p <- p + my_theme("bottom_right")
+  }
   name <- paste0(demographic, "_line_plot.png")
   ggplot2::ggsave(name, p, "png")
   return(p)
