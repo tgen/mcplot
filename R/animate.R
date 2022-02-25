@@ -3,7 +3,7 @@
 #' @param mc An mc object from the mcdata package.
 #' @param demographic demographic to plot
 
-animate_error_bar <- function(mc_filtered, demographic = FALSE) {
+animate_error_bar <- function(mc_filtered, demographic = FALSE, moving_scale = FALSE) {
   mc_filtered <- mc_filtered[mc_filtered[["age"]] <= 90, ]
   for (month in as.character(seq(lubridate::ymd("2013-02-01"),
                                  lubridate::floor_date(Sys.Date(), "month"),
@@ -71,7 +71,11 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE) {
     ggplot2::scale_colour_manual(values = mcdata::mc_palette()) +
     ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(n = 10), limits = c(0,36)) +
     ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5))
-  name <- paste0(demographic, "_error_bar_animation.png")
   animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
   gganimate::anim_save(paste0(demographic, "_error_bar_weekly.gif"), animation)
+  if(moving_scale == TRUE){
+    p <- p + gganimate::view_follow()
+    animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
+    gganimate::anim_save(paste0(demographic, "_unfixed_axis_error_bar_weekly.gif"), animation)
+  }
 }

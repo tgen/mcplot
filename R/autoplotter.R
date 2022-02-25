@@ -165,8 +165,8 @@ run_autoplotter <- function(){
     dir.create("Animations")
   }
   setwd("Animations")
-  animate_error_bar(mc_filtered_sex, "sex")
-  animate_error_bar(mc_filtered, "education_attainment")
+  animate_error_bar(mc_filtered_sex, "sex", TRUE)
+  animate_error_bar(mc_filtered, "education_attainment", TRUE)
 }
 
 
