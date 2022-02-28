@@ -4,7 +4,7 @@
 \alias{animate_error_bar}
 \title{Create animated gif of error bars}
 \usage{
-animate_error_bar(mc_filtered, demographic = FALSE)
+animate_error_bar(mc_filtered, demographic = FALSE, moving_scale = FALSE)
 }
 \arguments{
 \item{demographic}{demographic to plot}
