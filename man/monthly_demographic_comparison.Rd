@@ -5,13 +5,13 @@
 \title{Monthly demographic Table}
 \usage{
 monthly_demographic_comparison(
-  mc_tidy,
+  mc,
   current_month = lubridate::floor_date(Sys.Date(), "month"),
-  last_month = lubridate::floor_date(Sys.Date(), "month") - months(1)
+  last_month = current_month - months(1)
 )
 }
 \arguments{
-\item{mc_tidy}{mcdata object}
+\item{mc}{mcdata object}
 
 \item{current_month}{(optional) Default = Current month. The later month used for comparison}
 

@@ -3,7 +3,9 @@
 #' @param mc An mc object from the mcdata package.
 #' @param demographic demographic to plot
 
-animate_error_bar <- function(mc_filtered, demographic = FALSE, moving_scale = FALSE) {
+animate_error_bar <- function(mc_filtered,
+                              demographic = FALSE,
+                              moving_scale = FALSE) {
   mc_filtered <- mc_filtered[mc_filtered[["age"]] <= 90, ]
   for (month in as.character(seq(lubridate::ymd("2013-02-01"),
                                  lubridate::floor_date(Sys.Date(), "month"),
@@ -50,7 +52,7 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE, moving_scale = F
            mc_full_line <- temp)
   }
 
-  get_n <- function(date){
+  get_n <- function(date) {
     n <- mc_full_line %>%
       dplyr::filter(month == date) %>%
       tidyr::drop_na(total_n)
@@ -59,23 +61,34 @@ animate_error_bar <- function(mc_filtered, demographic = FALSE, moving_scale = F
   pd <- ggplot2::position_dodge(0.1)
   mc_full_line[["group"]] <- as.factor(mc_full_line[["group"]])
   p <- ggplot2::ggplot(mc_full_line,
-                      ggplot2::aes(x = age, y = mean, colour = group, group = group)) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = lower_ci, ymax = upper_ci), width = 0.1, position=pd) +
-    ggplot2::geom_line(position=pd) +
-    ggplot2::geom_point(position=pd) +
+         ggplot2::aes(x = age, y = mean, colour = group, group = group)) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(ymin = lower_ci, ymax = upper_ci),
+      width = 0.1, position = pd) +
+    ggplot2::geom_line(position = pd) +
+    ggplot2::geom_point(position = pd) +
     my_theme() +
     ggplot2::labs(x = "Age", y = "Score") +
     gganimate::transition_time(month) +
     ggplot2::labs(title = "Week: {frame_time}",
     subtitle = "n: {get_n(frame_time)}") +
     ggplot2::scale_colour_manual(values = mcdata::mc_palette()) +
-    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(n = 10), limits = c(0,36)) +
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(n = 10),
+                                limits = c(0, 36)) +
     ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5))
-  animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
+  animation <- gganimate::animate(p,
+   nframes = length(as.character(seq(lubridate::ymd("2013-02-01"),
+                                     lubridate::floor_date(Sys.Date(), "month"),
+                                     by = "week"))))
   gganimate::anim_save(paste0(demographic, "_error_bar_weekly.gif"), animation)
-  if(moving_scale == TRUE){
+  if (moving_scale == TRUE) {
     p <- p + gganimate::view_follow()
-    animation <- gganimate::animate(p, nframes = length(as.character(seq(lubridate::ymd("2013-02-01"), lubridate::floor_date(Sys.Date(), "month"), by = "week"))))
-    gganimate::anim_save(paste0(demographic, "_unfixed_axis_error_bar_weekly.gif"), animation)
+    animation <- gganimate::animate(p,
+     nframes = length(as.character(seq(lubridate::ymd("2013-02-01"),
+                                    lubridate::floor_date(Sys.Date(), "month"),
+                                    by = "week"))))
+    gganimate::anim_save(paste0(demographic,
+                                "_unfixed_axis_error_bar_weekly.gif"),
+                         animation)
   }
 }

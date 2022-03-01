@@ -4,10 +4,10 @@
 \alias{plot_participation_line}
 \title{Participation N Line}
 \usage{
-plot_participation_line(mc_tidy)
+plot_participation_line(mc)
 }
 \arguments{
-\item{mc_tidy}{mcdata object}
+\item{mc}{mcdata object}
 }
 \description{
 Participation N Line

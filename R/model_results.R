@@ -131,7 +131,7 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
     ggplot2::theme(legend.spacing.y = ggplot2::unit(0.2, "cm")) +
     ggplot2::scale_fill_manual(values = mcdata::mc_palette()) +
     ggplot2::scale_color_manual(values = mcdata::mc_palette())
-  if (game == "totalcorrect"){
+  if (game == "totalcorrect") {
     p <- p + my_theme()
   } else {
     p <- p + my_theme("bottom_right")

@@ -6,7 +6,7 @@
 \usage{
 plot_projected_participants(
   mc,
-  projection_start_date = "2020-01-01",
+  start_date = "2020-01-01",
   end_date = "2030-01-01",
   goal = FALSE
 )
@@ -14,9 +14,9 @@ plot_projected_participants(
 \arguments{
 \item{mc}{mcdata object}
 
-\item{projection_start_date}{(optional) Default = "2020-01-01", Start date of projection}
-
 \item{end_date}{(optional) Default = "2030-01-01", End date of projection}
+
+\item{tart_date}{(optional) Default = "2020-01-01", Start date of projection}
 }
 \description{
 Recruitment Projection Line
