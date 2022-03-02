@@ -1,9 +1,16 @@
 #' Run the autoplotter
 #' @importFrom magrittr %>%
 #' @export
-run_autoplotter <- function(geo = TRUE) {
-  mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
-    mcdata::remove_svRT_outliers(.)
+run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
+  if (mc_tidy = FALSE){
+    mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
+      mcdata::remove_svRT_outliers(.)
+  } else {
+    mc_filtered <- mcdashboard::importData(prod = TRUE) %>%
+      mcdata::mc_filter(.) %>%
+      mcdata::remove_svRT_outliers(.)
+  }
+
 
   mc_model_results <- mcdata::mc_model(mc_filtered)
   # Create directory for all of the plots
