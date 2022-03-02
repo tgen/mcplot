@@ -1,5 +1,6 @@
 #' Run the autoplotter
 #' @importFrom magrittr %>%
+#' @export
 run_autoplotter <- function() {
   mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
     mcdata::remove_svRT_outliers(.)
