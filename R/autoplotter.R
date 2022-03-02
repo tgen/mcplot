@@ -2,7 +2,7 @@
 #' @importFrom magrittr %>%
 #' @export
 run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
-  if (mc_tidy = FALSE){
+  if (mc_tidy == FALSE){
     mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
       mcdata::remove_svRT_outliers(.)
   } else {
