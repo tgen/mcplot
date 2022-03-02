@@ -84,11 +84,11 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
   }
   if (game == "medianSVRT_no_outliers") {
     model <- model_results[model_results[["dependent_variable"]] == "attnRT_median", ][["coefficients"]][[1]] %>%
-      mcplot::split_demo() %>%
+      split_demo() %>%
       tidyr::drop_na()
   } else {
     model <- model_results[model_results[["dependent_variable"]] == game, ][["coefficients"]][[1]] %>%
-      mcplot::split_demo() %>%
+      split_demo() %>%
       tidyr::drop_na()
   }
   title <- paste0(plain_title, " (p: ", formatC(model[model[["Demographic"]] == as.character(demographic), ][["Pr(>|t|)"]], format = "e", digits = 2),
