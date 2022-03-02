@@ -3,6 +3,8 @@
 #' @param mc mcdata object
 plot_participation_line <- function(mc) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
+  baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
+                        na.rm = TRUE)
   mc[["month"]] <- lubridate::floor_date(mc[["created_at"]], unit = "month")
   mc <- mc[as.Date(mc[["created_at"]]) >= as.Date("2021-10-01"), ]
   mc <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(),
@@ -11,9 +13,7 @@ plot_participation_line <- function(mc) {
   mc_counts <- as.data.frame(table(mc[["month"]]))
 
   #Get mc totals for each month in barplot
-  baseline_barplot <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
-                          na.rm = TRUE)
-  mc_counts[["total"]] <- format(baseline_barplot + cumsum(mc_counts[["Freq"]]),
+  mc_counts[["total"]] <- format(baseline_count + cumsum(mc_counts[["Freq"]]),
                                  big.mark = ",")
   mc_counts[["Var1"]] <- as.Date(mc_counts[["Var1"]])
 
@@ -50,7 +50,7 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
 
   mc[["month"]] <- lubridate::floor_date(mc[["created_at"]], unit = "month")
   mc <- mc[as.Date(mc[["created_at"]]) >= as.Date(start_date), ]
-  mc < - mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(),
+  mc <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(),
                                                               "month"), ]
 
   mc_counts <- as.data.frame(table(mc[["month"]]))
@@ -105,6 +105,7 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
 monthly_demographic_comparison <- function(mc,
                                            current_month = lubridate::floor_date(Sys.Date(), "month"),
                                            last_month = current_month - months(1)) {
+  mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   month1 <- lubridate::floor_date(last_month, "month")
   month2 <- lubridate::floor_date(current_month, "month")
 
