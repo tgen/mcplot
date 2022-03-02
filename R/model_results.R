@@ -140,3 +140,57 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
   ggplot2::ggsave(name, p, "png")
   return(p)
 }
+
+plot_error_bar <- function(mc, demographic = FALSE){
+  mc <- mc[mc[["age"]] <= 90, ]
+  n <- nrow(mc)
+  if (demographic == FALSE) {
+    mc_line <- mc %>%
+      dplyr::filter(., !is.na(age)) %>%
+      dplyr::group_by(age) %>%
+      dplyr::summarise(mean = mean(totalcorrect),
+                       sd = sd(totalcorrect),
+                       n = dplyr::n()) %>%
+      dplyr::mutate(se = sd / sqrt(n),
+                    lower_ci = mean - qt(1 - (0.05 / 2), n - 1) * se,
+                    upper_ci = mean + qt(1 - (0.05 / 2), n - 1) * se,
+                    group = 1)
+    mc_line[["total_n"]] <-  n
+  } else {
+    for (option in unique(mc[[demographic]])) {
+      if (!is.na(option) && option != "unknown") {
+        mc_line <- mc[mc[[demographic]] == option, ] %>%
+          dplyr::filter(., !is.na(age)) %>%
+          dplyr::group_by(age) %>%
+          dplyr::summarise(mean = mean(totalcorrect),
+                           sd = sd(totalcorrect),
+                           n = dplyr::n()) %>%
+          dplyr::mutate(se = sd / sqrt(n),
+                        lower_ci = mean - qt(1 - (0.05 / 2), n - 1) * se,
+                        upper_ci = mean + qt(1 - (0.05 / 2), n - 1) * se,
+                        group = option)
+        mc_line[["total_n"]] <-  n
+        ifelse(exists("mc_full_line"),
+               mc_full_line <- rbind(mc_full_line, mc_line),
+               mc_full_line <- mc_line)
+      }
+    }
+  }
+  pd <- ggplot2::position_dodge(0.1)
+  mc_full_line[["group"]] <- as.factor(mc_full_line[["group"]])
+  p <- ggplot2::ggplot(mc_full_line,
+                       ggplot2::aes(x = age, y = mean, colour = group, group = group)) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(ymin = lower_ci, ymax = upper_ci),
+      width = 0.1, position = pd) +
+    ggplot2::geom_line(position = pd) +
+    ggplot2::geom_point(position = pd) +
+    my_theme() +
+    ggplot2::labs(x = "Age", y = "Score") +
+    ggplot2::scale_colour_manual(values = mcdata::mc_palette()) +
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(n = 10),
+                                limits = c(0, 36)) +
+    ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5))
+  p
+}
+
