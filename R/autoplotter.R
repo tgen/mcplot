@@ -1,7 +1,7 @@
 #' Run the autoplotter
 #' @importFrom magrittr %>%
 #' @export
-run_autoplotter <- function() {
+run_autoplotter <- function(geo = TRUE) {
   mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
     mcdata::remove_svRT_outliers(.)
 
@@ -48,14 +48,17 @@ run_autoplotter <- function() {
 
   setwd("../")
   ## Geographics
-  if (!dir.exists("Geographics")) {
-    dir.create("Geographics")
-  }
-  setwd("Geographics")
-  plot_geo(mc_filtered, "world")
-  plot_geo(mc_filtered, "us")
+  if (geo == TRUE) {
+    if (!dir.exists("Geographics")) {
+      dir.create("Geographics")
+    }
+    setwd("Geographics")
+    plot_geo(mc_filtered, "world")
+    plot_geo(mc_filtered, "us")
 
-  setwd("../")
+    setwd("../")
+  }
+
   ##Main Effects
   if (!dir.exists("Main_Effects")) {
     dir.create("Main_Effects")
