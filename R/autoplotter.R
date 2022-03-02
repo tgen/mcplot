@@ -244,7 +244,7 @@ run_autoplotter <- function(geo = TRUE) {
                      model_results = mc_model_results)
   plot_model_results(mc_filtered, "Dizziness",
                      "dizziness", smooth = TRUE,
-                     ame = "medianSVRT_no_outliers",
+                     game = "medianSVRT_no_outliers",
                      model_results = mc_model_results)
   plot_model_results(mc_filtered, "Hypertension",
                      "hypertension", smooth = TRUE,
