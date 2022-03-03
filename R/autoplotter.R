@@ -313,11 +313,12 @@ run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
   setwd("../")
   mc_filtered_sex <- mc_filtered[mc_filtered$sex %in% c("Male", "Female"), ]
   # Animations
-
-  if (!dir.exists("Animations")) {
-    dir.create("Animations")
+  if (geo == TRUE) {
+    if (!dir.exists("Animations")) {
+      dir.create("Animations")
+    }
+    setwd("Animations")
+    animate_error_bar(mc_filtered_sex, "sex", TRUE)
+    animate_error_bar(mc_filtered, "education_attainment", TRUE)
   }
-  setwd("Animations")
-  animate_error_bar(mc_filtered_sex, "sex", TRUE)
-  animate_error_bar(mc_filtered, "education_attainment", TRUE)
 }
