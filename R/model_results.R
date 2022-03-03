@@ -4,62 +4,118 @@
 split_demo <- function(model) {
   model["Demographic"] <- NA
   model["Subset"] <- NA
-  model[model["term"] == "age", ]["Demographic"] <- "age"
-  model[model["term"] == "age", ]["Subset"] <- "age"
-  model[model["term"] == "sexMale", ]["Demographic"] <- "sex"
-  model[model["term"] == "sexMale", ]["Subset"] <- "Male"
-  model[model["term"] == "sexMale to female", ]["Demographic"] <- "sex"
-  model[model["term"] == "sexMale to female", ]["Subset"] <- "Male to female"
-  model[model["term"] == "sexFemale to male", ]["Demographic"] <- "sex"
-  model[model["term"] == "sexFemale to male", ]["Subset"] <- "Female to male"
-  model[model["term"] == "education_attainment", ]["Demographic"] <- "education_attainment"
-  model[model["term"] == "education_attainment", ]["Subset"] <- "education_attainment"
-  model[model["term"] == "raceAmerican Indian or Alaska Native", ]["Demographic"] <- "race"
-  model[model["term"] == "raceAmerican Indian or Alaska Native", ]["Subset"] <- "American Indian or Alaska Native"
-  model[model["term"] == "raceAsian", ]["Demographic"] <- "race"
-  model[model["term"] == "raceAsian", ]["Subset"] <- "Asian"
-  model[model["term"] == "raceBlack or African American", ]["Demographic"] <- "race"
-  model[model["term"] == "raceBlack or African American", ]["Subset"] <- "Black or African American"
-  model[model["term"] == "raceMixed", ]["Demographic"] <- "race"
-  model[model["term"] == "raceMixed", ]["Subset"] <- "Mixed"
-  model[model["term"] == "raceNative Hawaiian or Other Pacific Islander", ]["Demographic"] <- "race"
-  model[model["term"] == "raceNative Hawaiian or Other Pacific Islander", ]["Subset"] <- "Native Hawaiian or Other Pacific Islander"
-  model[model["term"] == "number_of_daily_medications", ]["Demographic"] <- "number_of_daily_medications"
-  model[model["term"] == "number_of_daily_medications", ]["Subset"] <- "number_of_daily_medications"
-  model[model["term"] == "left_handedTRUE", ]["Demographic"] <- "left_handed"
-  model[model["term"] == "left_handedTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "hispanic_latino_or_spanishTRUE", ]["Demographic"] <- "hispanic_latino_or_spanish"
-  model[model["term"] == "hispanic_latino_or_spanishTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "loss_of_consciousnessTRUE", ]["Demographic"] <- "loss_of_consciousness"
-  model[model["term"] == "loss_of_consciousnessTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "seizuresTRUE", ]["Demographic"] <- "seizures"
-  model[model["term"] == "seizuresTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "dizzinessTRUE", ]["Demographic"] <- "dizziness"
-  model[model["term"] == "dizzinessTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "smokingTRUE", ]["Demographic"] <- "smoking"
-  model[model["term"] == "smokingTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "alzheimerTRUE", ]["Demographic"] <- "alzheimer"
-  model[model["term"] == "alzheimerTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "marital_statusmarried", ]["Demographic"] <- "marital_status"
-  model[model["term"] == "marital_statusmarried", ]["Subset"] <- "married"
-  model[model["term"] == "marital_statuswidowed", ]["Demographic"] <- "marital_status"
-  model[model["term"] == "marital_statuswidowed", ]["Subset"] <- "widowed"
-  model[model["term"] == "marital_statusunreported", ]["Demographic"] <- "marital_status"
-  model[model["term"] == "marital_statusunreported", ]["Subset"] <- "unreported"
-  model[model["term"] == "diabetesTRUE", ]["Demographic"] <- "diabetes"
-  model[model["term"] == "diabetesTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "hypertensionTRUE", ]["Demographic"] <- "hypertension"
-  model[model["term"] == "hypertensionTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "heart_diseaseTRUE", ]["Demographic"] <- "heart_disease"
-  model[model["term"] == "heart_diseaseTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "cancerTRUE", ]["Demographic"] <- "cancer"
-  model[model["term"] == "cancerTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "brain_diseaseTRUE", ]["Demographic"] <- "brain_disease"
-  model[model["term"] == "brain_diseaseTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "strokeTRUE", ]["Demographic"] <- "stroke"
-  model[model["term"] == "strokeTRUE", ]["Subset"] <- "TRUE"
-  model[model["term"] == "drug_abuseTRUE", ]["Demographic"] <- "drug_abuse"
-  model[model["term"] == "drug_abuseTRUE", ]["Subset"] <- "TRUE"
+  if ("age" %in% model[["term"]]){
+    model[model["term"] == "age", ]["Demographic"] <- "age"
+    model[model["term"] == "age", ]["Subset"] <- "age"
+  }
+  if ("sexMale" %in% model[["term"]]){
+    model[model["term"] == "sexMale", ]["Demographic"] <- "sex"
+    model[model["term"] == "sexMale", ]["Subset"] <- "Male"
+  }
+  if ("sexMale to female" %in% model[["term"]]){
+    model[model["term"] == "sexMale to female", ]["Demographic"] <- "sex"
+    model[model["term"] == "sexMale to female", ]["Subset"] <- "Male to female"
+  }
+  if ("sexFemale to male" %in% model[["term"]]){
+    model[model["term"] == "sexFemale to male", ]["Demographic"] <- "sex"
+    model[model["term"] == "sexFemale to male", ]["Subset"] <- "Female to male"
+  }
+  if ("education_attainment" %in% model[["term"]]){
+    model[model["term"] == "education_attainment", ]["Demographic"] <- "education_attainment"
+    model[model["term"] == "education_attainment", ]["Subset"] <- "education_attainment"
+  }
+  if ("raceAmerican Indian or Alaska Native" %in% model[["term"]]){
+    model[model["term"] == "raceAmerican Indian or Alaska Native", ]["Demographic"] <- "race"
+    model[model["term"] == "raceAmerican Indian or Alaska Native", ]["Subset"] <- "American Indian or Alaska Native"
+  }
+  if ("raceAsian" %in% model[["term"]]){
+    model[model["term"] == "raceAsian", ]["Demographic"] <- "race"
+    model[model["term"] == "raceAsian", ]["Subset"] <- "Asian"
+  }
+  if ("raceBlack or African American" %in% model[["term"]]){
+    model[model["term"] == "raceBlack or African American", ]["Demographic"] <- "race"
+    model[model["term"] == "raceBlack or African American", ]["Subset"] <- "Black or African American"
+  }
+  if ("raceMixed" %in% model[["term"]]){
+    model[model["term"] == "raceMixed", ]["Demographic"] <- "race"
+    model[model["term"] == "raceMixed", ]["Subset"] <- "Mixed"
+  }
+  if ("raceNative Hawaiian or Other Pacific Islander" %in% model[["term"]]){
+    model[model["term"] == "raceNative Hawaiian or Other Pacific Islander", ]["Demographic"] <- "race"
+    model[model["term"] == "raceNative Hawaiian or Other Pacific Islander", ]["Subset"] <- "Native Hawaiian or Other Pacific Islander"
+  }
+  if ("number_of_daily_medications" %in% model[["term"]]){
+    model[model["term"] == "number_of_daily_medications", ]["Demographic"] <- "number_of_daily_medications"
+    model[model["term"] == "number_of_daily_medications", ]["Subset"] <- "number_of_daily_medications"
+  }
+  if ("left_handedTRUE" %in% model[["term"]]){
+    model[model["term"] == "left_handedTRUE", ]["Demographic"] <- "left_handed"
+    model[model["term"] == "left_handedTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("hispanic_latino_or_spanishTRUE" %in% model[["term"]]){
+    model[model["term"] == "hispanic_latino_or_spanishTRUE", ]["Demographic"] <- "hispanic_latino_or_spanish"
+    model[model["term"] == "hispanic_latino_or_spanishTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("loss_of_consciousnessTRUE" %in% model[["term"]]){
+    model[model["term"] == "loss_of_consciousnessTRUE", ]["Demographic"] <- "loss_of_consciousness"
+    model[model["term"] == "loss_of_consciousnessTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("seizuresTRUE" %in% model[["term"]]){
+    model[model["term"] == "seizuresTRUE", ]["Demographic"] <- "seizures"
+    model[model["term"] == "seizuresTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("dizzinessTRUE" %in% model[["term"]]){
+    model[model["term"] == "dizzinessTRUE", ]["Demographic"] <- "dizziness"
+    model[model["term"] == "dizzinessTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("smokingTRUE" %in% model[["term"]]){
+    model[model["term"] == "smokingTRUE", ]["Demographic"] <- "smoking"
+    model[model["term"] == "smokingTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("alzheimerTRUE" %in% model[["term"]]){
+    model[model["term"] == "alzheimerTRUE", ]["Demographic"] <- "alzheimer"
+    model[model["term"] == "alzheimerTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("marital_statusmarried" %in% model[["term"]]){
+    model[model["term"] == "marital_statusmarried", ]["Demographic"] <- "marital_status"
+    model[model["term"] == "marital_statusmarried", ]["Subset"] <- "married"
+  }
+  if ("marital_statuswidowed" %in% model[["term"]]){
+    model[model["term"] == "marital_statuswidowed", ]["Demographic"] <- "marital_status"
+    model[model["term"] == "marital_statuswidowed", ]["Subset"] <- "widowed"
+  }
+  if ("marital_statusunreported" %in% model[["term"]]){
+    model[model["term"] == "marital_statusunreported", ]["Demographic"] <- "marital_status"
+    model[model["term"] == "marital_statusunreported", ]["Subset"] <- "unreported"
+  }
+  if ("diabetesTRUE" %in% model[["term"]]){
+    model[model["term"] == "diabetesTRUE", ]["Demographic"] <- "diabetes"
+    model[model["term"] == "diabetesTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("hypertensionTRUE" %in% model[["term"]]){
+    model[model["term"] == "hypertensionTRUE", ]["Demographic"] <- "hypertension"
+    model[model["term"] == "hypertensionTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("heart_diseaseTRUE" %in% model[["term"]]){
+    model[model["term"] == "heart_diseaseTRUE", ]["Demographic"] <- "heart_disease"
+    model[model["term"] == "heart_diseaseTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("cancerTRUE" %in% model[["term"]]){
+    model[model["term"] == "cancerTRUE", ]["Demographic"] <- "cancer"
+    model[model["term"] == "cancerTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("brain_diseaseTRUE" %in% model[["term"]]){
+    model[model["term"] == "brain_diseaseTRUE", ]["Demographic"] <- "brain_disease"
+    model[model["term"] == "brain_diseaseTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("strokeTRUE" %in% model[["term"]]){
+    model[model["term"] == "strokeTRUE", ]["Demographic"] <- "stroke"
+    model[model["term"] == "strokeTRUE", ]["Subset"] <- "TRUE"
+  }
+  if ("drug_abuseTRUE" %in% model[["term"]]){
+    model[model["term"] == "drug_abuseTRUE", ]["Demographic"] <- "drug_abuse"
+    model[model["term"] == "drug_abuseTRUE", ]["Subset"] <- "TRUE"
+  }
   model[["Legend"]] <- paste0(model[["Subset"]], "\np: ", formatC(model[["Pr(>|t|)"]], format = "e", digits = 2), "\nEffect Size: ",
                              format(model[["Estimate"]], digits = 1))
   model
@@ -89,7 +145,7 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
       tidyr::drop_na()
   } else {
     model <- model_results[model_results[["dependent_variable"]] == game, ][["coefficients"]][[1]] %>%
-      split_demo() %>%
+      split_demo(.) %>%
       tidyr::drop_na()
   }
   title <- paste0(plain_title, " (p: ", formatC(model[model[["Demographic"]] == as.character(demographic), ][["Pr(>|t|)"]], format = "e", digits = 2),
