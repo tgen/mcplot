@@ -56,7 +56,8 @@ plot_demographic_barplot <- function(mc, demographic,
 #' @param mc An mc object from the mcdata package.
 #' @param demographic (optional) Default = FALSE. A string of the demographic you wish to plot.
 #' @export
-plot_percent_contactable <- function(mc, demographic = FALSE){
+plot_percent_contactable <- function(mc, demographic = FALSE,
+                                     demographic_subset = FALSE){
   mc <- mc[mc[["age"]] <= 90, ]
   if (demographic == FALSE){
     df <- as.data.frame(table(mc[c("age", "contactable")]))
@@ -64,6 +65,10 @@ plot_percent_contactable <- function(mc, demographic = FALSE){
       dplyr::group_by(age) %>%
       dplyr::summarise(total = sum(Freq))
   } else {
+    if (demographic_subset != FALSE){
+      mc <- mc[mc[[demographic]] %in% demographic_subset, ]
+      mc[[demographic]] <- as.factor(as.character(mc[[demographic]]))
+    }
     df <- as.data.frame(table(mc[c("age", "contactable", demographic)]))
     df[["demographic"]] <- df[[demographic]]
     totals <- df %>%
@@ -82,12 +87,14 @@ plot_percent_contactable <- function(mc, demographic = FALSE){
 
   p <- p +
     ggplot2::geom_line() +
-    my_theme() +
     ggplot2::labs(x = "Age", y = "Percentage of Participants") +
     ggplot2::scale_y_continuous(labels = scales::percent,
                                 breaks = scales::pretty_breaks(n = 10)) +
     ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5)) +
     ggplot2::scale_fill_manual(values = mcdata::mc_palette()) +
     ggplot2::scale_color_manual(values = mcdata::mc_palette())
+  ifelse(demographic == FALSE,
+         p <- p + mcdata::mc_theme(),
+         p <- p + my_theme("top_left"))
   p
 }
