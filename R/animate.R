@@ -2,6 +2,7 @@
 #'
 #' @param mc An mc object from the mcdata package.
 #' @param demographic demographic to plot
+#' @export
 
 animate_error_bar <- function(mc_filtered,
                               demographic = FALSE,

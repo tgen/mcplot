@@ -75,6 +75,7 @@ split_demo <- function(model) {
 #' @param smooth (optional) Default = FALSE, returning linear lines. If TRUE, smooth lines are returned
 #' @param game (optional) Default = "totalcorrect". For SVRT results, use "medianSVRT_no_outliers"
 #' @param model_results  (optional) mc_model output object
+#' @export
 plot_model_results <- function(mc, plain_title = "", demographic = "age",
                                      demographic_subset = FALSE, smooth = FALSE,
                                      game = "totalcorrect",

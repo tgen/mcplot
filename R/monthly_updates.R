@@ -1,6 +1,7 @@
 #' Participation N Line
 #'
 #' @param mc mcdata object
+#' @export
 plot_participation_line <- function(mc) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
@@ -41,6 +42,7 @@ plot_participation_line <- function(mc) {
 #' @param mc mcdata object
 #' @param tart_date (optional) Default = "2020-01-01", Start date of projection
 #' @param end_date (optional) Default = "2030-01-01", End date of projection
+#' @export
 plot_projected_participants <- function(mc, start_date = "2020-01-01",
                                         end_date = "2030-01-01",
                                         goal = FALSE) {
@@ -102,6 +104,7 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
 #' @param current_month (optional) Default = Current month. The later month used for comparison
 #' @param last_month (optional) Default = Last month. The earlier month used for comparison
 #' @importFrom lubridate %within%
+#' @export
 monthly_demographic_comparison <- function(mc,
                                            current_month = lubridate::floor_date(Sys.Date(), "month"),
                                            last_month = current_month - months(1)) {

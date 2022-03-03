@@ -4,7 +4,7 @@
 \alias{run_autoplotter}
 \title{Run the autoplotter}
 \usage{
-run_autoplotter(geo = TRUE)
+run_autoplotter(mc_tidy = FALSE, geo = TRUE)
 }
 \description{
 Run the autoplotter

@@ -2,6 +2,7 @@
 #'
 #' @param mc An mc object from the mcdata package.
 #' @param scale "world" for world plot or "us" for US plot
+#' @export
 
 plot_geo <- function(mc, scale = "world") {
   options(tigris_use_cache = TRUE)
