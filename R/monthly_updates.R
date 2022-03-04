@@ -45,6 +45,8 @@ plot_participation_line <- function(mc) {
 #' @export
 plot_projected_participants <- function(mc, start_date = "2020-01-01",
                                         end_date = "2030-01-01",
+                                        options = FALSE,
+                                        months_to_average = 6,
                                         goal = FALSE) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date(start_date),
@@ -56,7 +58,7 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
                                                               "month"), ]
 
   mc_counts <- as.data.frame(table(mc[["month"]]))
-  six_mos_table <- mc_counts[(nrow(mc_counts) - 6):nrow(mc_counts), ]
+  six_mos_table <- mc_counts[(nrow(mc_counts) - months_to_average):nrow(mc_counts), ]
   average_rate <- mean(six_mos_table[["Freq"]])
 
   line_df <- data.frame(Month = as.character(mc_counts[["Var1"]]),
@@ -68,30 +70,51 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
                           lubridate::ymd(end_date))
   time_range <- time_range %/% months(1)
   dates <- start_date + months(1:time_range)
-  dates_values <- line_df[["Total"]][[length(line_df[["Total"]])]] +
-    (average_rate * 1:time_range)
-  df <- data.frame(Month = as.character(dates),
-                   Total = dates_values,
-                   Record = "Projected", stringsAsFactors = FALSE)
+  if (options == TRUE){
+    for (x in c(1, 1.25, 1.5, 2)) {
+      dates_values <- line_df[["Total"]][[length(line_df[["Total"]])]] +
+        (x * average_rate * 1:time_range)
+      df <- data.frame(Month = as.character(dates),
+                       Total = dates_values,
+                       Record = as.character(x), stringsAsFactors = FALSE)
+      ifelse(exists("long_df"),
+             long_df <- rbind(long_df, df),
+             long_df <- df)
+    }
+  } else {
+    dates_values <- line_df[["Total"]][[length(line_df[["Total"]])]] +
+      (average_rate * 1:time_range)
+    long_df <- data.frame(Month = as.character(dates),
+                     Total = dates_values,
+                     Record = "Projected", stringsAsFactors = FALSE)
+  }
+
   rm(dates)
   rm(dates_values)
-  final_line_df <- rbind(line_df, df)
+  final_line_df <- rbind(line_df, long_df)
   final_line_df[["Total"]] <- final_line_df[["Total"]] + baseline_count
   final_line_df[["Month"]] <- as.Date(final_line_df[["Month"]])
 
   p <- ggplot2::ggplot(data = final_line_df,
                        ggplot2::aes(x = Month,
-                                    y = Total, group = 1,
+                                    y = Total, group = Record,
                                     color = Record)) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
-    modified_theme() +
+    my_theme("bottom_right") +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 0)) +
     ggplot2::scale_x_date(date_breaks = "1 year",
                           date_minor_breaks = "1 month",
                           date_labels = "%Y") +
     ggplot2::scale_y_continuous(label = scales::comma) +
     ggplot2::labs(x = "Year", y = "Total Participants")
+  if (options == TRUE){
+    p <- p +
+      ggplot2::geom_vline(xintercept = as.Date("2021-10-01"),
+                          color = "black",
+                          linetype = "dashed")
+  }
+
   ggplot2::ggsave(paste0(Sys.Date(),
                          "_monthly_overall_participation_projection.png"))
   p
