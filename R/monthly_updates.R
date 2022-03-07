@@ -2,7 +2,57 @@
 #'
 #' @param mc mcdata object
 #' @export
-plot_participation_line <- function(mc) {
+plot_participation_line <- function(mc, monthly = TRUE) {
+  mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
+  baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
+                        na.rm = TRUE)
+  mc[["month"]] <- lubridate::floor_date(mc[["created_at"]], unit = "month")
+  mc <- mc[as.Date(mc[["created_at"]]) >= as.Date("2021-10-01"), ]
+  mc <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(),
+                                                               "month"), ]
+
+  mc_counts <- as.data.frame(table(mc[["month"]]))
+
+  #Get mc totals for each month in barplot
+  mc_counts[["total"]] <- format(baseline_count + cumsum(mc_counts[["Freq"]]),
+                                 big.mark = ",")
+  mc_counts[["Var1"]] <- as.Date(mc_counts[["Var1"]])
+
+  if (monthly == TRUE){
+    p <- ggplot2::ggplot(data = mc_counts,
+                         ggplot2::aes(x = Var1, y = Freq,
+                                      group = 1, label = total)) +
+      ggplot2::scale_y_continuous(breaks = seq(0, 5500, 500),
+                                  limits = c(0, 5500)) +
+      ggplot2::labs(x = "Month",
+                    y = "Number of Participants Recruited (Monthly)")
+  } else {
+      p <- ggplot2::ggplot(data = mc_counts,
+                           ggplot2::aes(x = Var1, y = total,
+                                        group = 1, label = total)) +
+        ggplot2::labs(x = "Month",
+                      y = "Total Number of Participants")
+
+  }
+
+
+  p <- p +
+    ggplot2::geom_line() +
+    ggplot2::geom_point(size = 2) +
+    ggplot2::geom_text(hjust = 0.5, vjust = -1) +
+    ggplot2::theme(text = ggplot2::element_text(size = 15)) +
+    modified_theme() +
+    ggplot2::scale_x_date(date_labels = "%b %Y")
+  ggplot2::ggsave(paste0(Sys.Date(), "_monthly_participation_lineplot.png"),
+                  p, width = 8, height = 5)
+  p
+}
+
+#' Participation N Barplot
+#'
+#' @param mc mcdata object
+#' @export
+plot_participation_barplot <- function(mc) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
                         na.rm = TRUE)
@@ -19,10 +69,9 @@ plot_participation_line <- function(mc) {
   mc_counts[["Var1"]] <- as.Date(mc_counts[["Var1"]])
 
   p <- ggplot2::ggplot(data = mc_counts,
-                      ggplot2::aes(x = Var1, y = Freq,
-                                   group = 1, label = total)) +
-    ggplot2::geom_line() +
-    ggplot2::geom_point(size = 2) +
+                       ggplot2::aes(x = Var1, y = Freq,
+                                    label = format(Freq, big.mark = ","))) +
+    ggplot2::geom_bar(stat = "identity") +
     ggplot2::geom_text(hjust = 0.5, vjust = -1) +
     ggplot2::theme(text = ggplot2::element_text(size = 15)) +
     modified_theme() +
@@ -31,7 +80,7 @@ plot_participation_line <- function(mc) {
     ggplot2::scale_y_continuous(breaks = seq(0, 5500, 500),
                                 limits = c(0, 5500)) +
     ggplot2::scale_x_date(date_labels = "%b %Y")
-  ggplot2::ggsave(paste0(Sys.Date(), "_monthly_participation_lineplot.png"),
+  ggplot2::ggsave(paste0(Sys.Date(), "_monthly_participation_barplot.png"),
                   p, width = 8, height = 5)
   p
 }
