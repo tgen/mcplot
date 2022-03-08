@@ -75,12 +75,14 @@ plot_age_barplot <- function(mc,
 plot_demographic_barplot <- function(mc, demographic,
                                     title = "", subset = FALSE,
                                     percentage = TRUE,
-                                    age_decade = FALSE) {
+                                    age_decade = FALSE,
+                                    path = "./") {
   mc <- mc[mc[["age"]] <= 90, ]
   mc <- mc[mc[["age"]] >= 18, ]
   if (age_decade == FALSE) {
     mc[["age"]] <- as.numeric(as.character(mc[["age"]]))
     df <- as.data.frame(table(mc[c("age", demographic)]))
+    df[["age"]] <- as.numeric(as.character(df[["age"]]))
   } else {
     df <- as.data.frame(table(mc[c("age_decade", demographic)]))
     df[["age"]] <- df[["age_decade"]]
@@ -161,7 +163,7 @@ plot_demographic_barplot <- function(mc, demographic,
     name <- paste0(name, "_N")
   }
 
-  name <- paste0(name, "_barplot.png")
+  name <- paste0(path,name, "_barplot.png")
   ggplot2::ggsave(name, p, "png")
   return(p)
 }

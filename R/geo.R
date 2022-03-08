@@ -4,7 +4,7 @@
 #' @param scale "world" for world plot or "us" for US plot
 #' @export
 
-plot_geo <- function(mc, scale = "world") {
+plot_geo <- function(mc, scale = "world", path = "./") {
   options(tigris_use_cache = TRUE)
   if (scale == "world") {
     world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
@@ -23,7 +23,7 @@ plot_geo <- function(mc, scale = "world") {
     world_modified <- merge(x = us_geo, y = population_df,
                             by = "NAME", all.x = TRUE)
   }
-  name <- paste0(scale, "_geo_plot.png")
+  name <- paste0(path, scale, "_geo_plot.png")
   world_modified[["Freq"]] <- log(world_modified[["Freq"]])
   p <- ggplot2::ggplot(data = world_modified) +
     ggplot2::geom_sf(ggplot2::aes(fill = Freq, color = Freq)) +

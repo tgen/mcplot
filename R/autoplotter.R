@@ -20,305 +20,428 @@ run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
   }
 
   # Create Subfolders for each Plot type
-  setwd(dir_name)
-  if (!dir.exists("Demographics")) {
-    dir.create("Demographics")
+  if (!dir.exists(paste0("./",dir_name, "/Demographics"))) {
+    dir.create(paste0("./",dir_name, "/Demographics"))
   }
 
+  demo_path <- paste0("./",dir_name,"/Demographics/")
   # Generate Plots
   ## Demographics
-  setwd("Demographics")
   plot_demographic_barplot(mc_filtered, "alzheimer",
-                           "First Degree Family History of Alzheimers")
-  plot_demographic_barplot(mc_filtered, "diabetes", "Diabetes")
-  plot_demographic_barplot(mc_filtered, "dizziness", "History of Dizziness")
-  plot_demographic_barplot(mc_filtered, "hypertension", "Hypertension")
-  plot_demographic_barplot(mc_filtered, "heart_disease", "Heart Disease")
-  plot_demographic_barplot(mc_filtered, "smoking", "Smoking")
+                           "First Degree Family History of Alzheimers",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "diabetes", "Diabetes",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "dizziness", "History of Dizziness",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "hypertension", "Hypertension",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "heart_disease", "Heart Disease",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "smoking", "Smoking",
+                           path = demo_path)
   plot_demographic_barplot(mc_filtered, "loss_of_consciousness",
-                           "Loss of Conciousness")
-  plot_demographic_barplot(mc_filtered, "drug_abuse", "Drug Abuse")
-  plot_demographic_barplot(mc_filtered, "cancer", "Cancer")
-  plot_demographic_barplot(mc_filtered, "stroke", "Stroke")
-  plot_demographic_barplot(mc_filtered, "seizures", "Seizures")
+                           "Loss of Conciousness",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "drug_abuse", "Drug Abuse",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "cancer", "Cancer",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "stroke", "Stroke",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "seizures", "Seizures",
+                           path = demo_path)
   plot_demographic_barplot(mc_filtered, "education_attainment",
-                           "Education Attainment")
-  plot_demographic_barplot(mc_filtered, "sex", "Sex")
-  plot_demographic_barplot(mc_filtered, "left_handed", "Left Handed")
+                           "Education Attainment",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "sex", "Sex",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "left_handed", "Left Handed",
+                           path = demo_path)
   plot_demographic_barplot(mc_filtered, "hispanic_latino_or_spanish",
-                           "Hispanic, Latino, or Spanish")
-  plot_demographic_barplot(mc_filtered, "race", "Race")
+                           "Hispanic, Latino, or Spanish",
+                           path = demo_path)
+  plot_demographic_barplot(mc_filtered, "race", "Race",
+                           path = demo_path)
   plot_demographic_barplot(mc_filtered, "race", "Race",
                            c("Black or African American", "Asian",
                              "Native Hawaiian or Other Pacific Islander",
-                             "American Indian or Alaska Native", "Mixed"))
+                             "American Indian or Alaska Native", "Mixed"),
+                           path = demo_path)
 
-  setwd("../")
   ## Geographics
   if (geo == TRUE) {
-    if (!dir.exists("Geographics")) {
-      dir.create("Geographics")
+    if (!dir.exists(paste0("./",dir_name, "/Geographics"))) {
+      dir.create(paste0("./",dir_name, "/Geographics"))
     }
-    setwd("Geographics")
-    plot_geo(mc_filtered, "world")
-    plot_geo(mc_filtered, "us")
-
-    setwd("../")
+    geo_path <- paste0("./",dir_name, "/Geographics/")
+    plot_geo(mc_filtered, "world", path = geo_path)
+    plot_geo(mc_filtered, "us", path = geo_path)
   }
 
   ##Main Effects
-  if (!dir.exists("Main_Effects")) {
-    dir.create("Main_Effects")
+  if (!dir.exists(paste0("./",dir_name, "/Main_Effects"))) {
+    dir.create(paste0("./",dir_name, "/Main_Effects"))
   }
-  setwd("Main_Effects")
-
-  if (!dir.exists("PAL")) {
-    dir.create("PAL")
+  main_effects_path <- paste0("./",dir_name, "/Main_Effects/")
+  if (!dir.exists(paste0(main_effects_path, "PAL"))) {
+    dir.create(paste0(main_effects_path, "PAL"))
   }
-  setwd("PAL")
-  if (!dir.exists("Linear")) {
-    dir.create("Linear")
+  pal_path <- paste0(main_effects_path, "PAL/")
+  if (!dir.exists(paste0(pal_path, "Linear"))) {
+    dir.create(paste0(pal_path, "Linear"))
   }
-  setwd("Linear")
+  pal_linear_path <- paste0(pal_path, "Linear/")
   plot_model_results(mc_filtered, "First Degree Family history of Alzheimer's",
-                     "alzheimer", model_results = mc_model_results)
+                     "alzheimer", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Diabetes",
-                     "diabetes", model_results = mc_model_results)
+                     "diabetes", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Dizziness",
-                     "dizziness", model_results = mc_model_results)
+                     "dizziness", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Hypertension",
-                     "hypertension", model_results = mc_model_results)
+                     "hypertension", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Heart Disease",
-                     "heart_disease", model_results = mc_model_results)
+                     "heart_disease", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Smoking",
-                     "smoking", model_results = mc_model_results)
+                     "smoking", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Loss of Conciousness",
-                     "loss_of_consciousness", model_results = mc_model_results)
+                     "loss_of_consciousness", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Drug Abuse",
-                     "drug_abuse", model_results = mc_model_results)
+                     "drug_abuse", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Cancer",
-                     "cancer", model_results = mc_model_results)
+                     "cancer", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Stroke",
-                     "stroke", model_results = mc_model_results)
+                     "stroke", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Seizures",
-                     "seizures", model_results = mc_model_results)
+                     "seizures", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Education Attainment",
-                     "education_attainment", model_results = mc_model_results)
+                     "education_attainment", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Sex", "sex",
-                     c("Male", "Female"), model_results = mc_model_results)
+                     c("Male", "Female"), model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Left Handed",
-                     "left_handed", model_results = mc_model_results)
+                     "left_handed", model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Hispanic, Latino, or Spanish",
                      "hispanic_latino_or_spanish",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_linear_path)
   plot_model_results(mc_filtered, "Race",
-                     "race", model_results = mc_model_results)
-  plot_model_results(mc_filtered, "Age", model_results = mc_model_results)
-  setwd("../")
+                     "race", model_results = mc_model_results,
+                     path = pal_linear_path)
+  plot_model_results(mc_filtered, "Age", model_results = mc_model_results,
+                     path = pal_linear_path)
 
-  if (!dir.exists("Curvy")) {
-    dir.create("Curvy")
+  if (!dir.exists(paste0(pal_path,"Curvy"))) {
+    dir.create(paste0(pal_path,"Curvy"))
   }
-  setwd("Curvy")
-
+  pal_curvy_path <- paste0(pal_path,"Curvy/")
   plot_model_results(mc_filtered, "First Degree Family history of Alzheimer's",
                      "alzheimer", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Diabetes",
                      "diabetes", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Dizziness",
                      "dizziness", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Hypertension",
                      "hypertension", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Heart Disease",
                      "heart_disease", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Smoking",
                      "smoking", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Loss of Conciousness",
                      "loss_of_consciousness", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Drug Abuse",
                      "drug_abuse", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Cancer",
                      "cancer", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Stroke",
                      "stroke", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Seizures",
                      "seizures", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Education Attainment",
                      "education_attainment", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Sex", "sex",
                      c("Male", "Female"), smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Left Handed",
                      "left_handed", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Hispanic, Latino, or Spanish",
                      "hispanic_latino_or_spanish", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Race",
                      "race", smooth = TRUE,
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = pal_curvy_path)
   plot_model_results(mc_filtered, "Age",
-                     smooth = TRUE, model_results = mc_model_results)
-  setwd("../")
-  setwd("../")
+                     smooth = TRUE, model_results = mc_model_results,
+                     path = pal_curvy_path)
 
-  if (!dir.exists("SVRT")) {
-    dir.create("SVRT")
+  svrt_path <- paste0(main_effects_path, "SVRT/")
+  if (!dir.exists(svrt_path)) {
+    dir.create(svrt_path)
   }
-  setwd("SVRT")
-  if (!dir.exists("Linear")) {
-    dir.create("Linear")
+  svrt_linear_path <- paste0(svrt_path, "Linear/")
+  if (!dir.exists(svrt_linear_path)) {
+    dir.create(svrt_linear_path)
   }
-  setwd("Linear")
   plot_model_results(mc_filtered, "First Degree Family history of Alzheimer's",
                      "alzheimer", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Diabetes",
                      "diabetes", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Dizziness",
                      "dizziness", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Hypertension",
                      "hypertension", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Heart Disease",
                      "heart_disease", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Smoking",
                      "smoking", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Loss of Conciousness",
                      "loss_of_consciousness", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Drug Abuse",
                      "drug_abuse", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Cancer",
                      "cancer", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Stroke",
                      "stroke", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Seizures",
                      "seizures", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Education Attainment",
                      "education_attainment", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Sex",
                     "sex", c("Male", "Female"), game = "medianSVRT_no_outliers",
-                    model_results = mc_model_results)
+                    model_results = mc_model_results,
+                    path = svrt_linear_path)
   plot_model_results(mc_filtered, "Left Handed",
                      "left_handed", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Hispanic, Latino, or Spanish",
                      "hispanic_latino_or_spanish",
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Race",
                      "race", game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
   plot_model_results(mc_filtered, "Age",
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
-  setwd("../")
-
-  if (!dir.exists("Curvy")) {
-    dir.create("Curvy")
+                     model_results = mc_model_results,
+                     path = svrt_linear_path)
+  svrt_curvy_path <- paste0(svrt_path, "Curvy/")
+  if (!dir.exists(svrt_curvy_path)) {
+    dir.create(svrt_curvy_path)
   }
-  setwd("Curvy")
-
   plot_model_results(mc_filtered, "First Degree Family history of Alzheimer's",
                      "alzheimer", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Diabetes",
                      "diabetes", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Dizziness",
                      "dizziness", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Hypertension",
                      "hypertension", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Heart Disease",
                      "heart_disease", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Smoking",
                      "smoking", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Loss of Conciousness",
                      "loss_of_consciousness", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Drug Abuse",
                      "drug_abuse", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Cancer",
                      "cancer", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Stroke",
                      "stroke", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Seizures",
                      "seizures", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Education Attainment",
                      "education_attainment", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Sex",
                      "sex", c("Male", "Female"), smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Left Handed",
                      "left_handed", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Hispanic, Latino, or Spanish",
                      "hispanic_latino_or_spanish", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Race",
                      "race", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   plot_model_results(mc_filtered, "Age", smooth = TRUE,
                      game = "medianSVRT_no_outliers",
-                     model_results = mc_model_results)
-  setwd("../")
-  setwd("../")
-  setwd("../")
+                     model_results = mc_model_results,
+                     path = svrt_curvy_path)
   mc_filtered_sex <- mc_filtered[mc_filtered$sex %in% c("Male", "Female"), ]
   # Animations
   if (geo == TRUE) {
-    if (!dir.exists("Animations")) {
-      dir.create("Animations")
+    animations_path <- paste0("./",dir_name, "/Animations/")
+    if (!dir.exists(animations_path)) {
+      dir.create(animations_path)
     }
-    setwd("Animations")
-    animate_error_bar(mc_filtered_sex, "sex", TRUE)
-    animate_error_bar(mc_filtered, "education_attainment", TRUE)
+    animate_error_bar(mc_filtered_sex, "sex", TRUE, path = animations_path)
+    animate_error_bar(mc_filtered, "education_attainment", TRUE,
+                      path = animations_path)
   }
+}
+
+#' Run monthly NIH graphs
+#' @importFrom magrittr %>%
+#' @export
+run_monthly_graphs <- function(mc) {
+  for (x in unique(mc[!is.na(mc[["race"]]),][["race"]])){
+    plot_demographic_barplot(mc, "race", subset = x, age_decade = TRUE, percentage = FALSE)
+    plot_demographic_barplot(mc, "race", subset = x, age_decade = TRUE)
+  }
+  plot_age_barplot(mc_tidy, percentage = TRUE, age_decade = TRUE)
+  plot_age_barplot(mc_tidy, percentage = FALSE, age_decade = TRUE)
+  get_race_ethnicity_demographics <- function(mc){
+    mc <- mc[!is.na(mc[["race"]]), ]
+    demographics <- mcdata::report_demographics(mcs = list(mc[mc[["race"]] == "White", ],
+                                                           mc[mc[["race"]] == "Native Hawaiian or Other Pacific Islander", ],
+                                                           mc[mc[["race"]] == "Mixed", ],
+                                                           mc[mc[["race"]] == "Asian", ],
+                                                           mc[mc[["race"]] == "Black or African American", ],
+                                                           mc[mc[["race"]] == "American Indian or Alaska Native", ],
+                                                           mc[mc[["hispanic_latino_or_spanish"]] == TRUE, ],
+                                                           mc),
+                                                          labels = list("White",
+                                                                        "Native Hawaiian or Other Pacific Islander",
+                                                                        "Mixed",
+                                                                        "Asian",
+                                                                        "Black or African American",
+                                                                        "American Indian or Alaska Native",
+                                                                        "Hispanic Latino or Spanish",
+                                                                        "total")
+                                                          )
+
+    filtered_demographics <- demographics[demographics[["demographic"]] %in%
+                                            c("sex", "hispanic_latino_or_spanish",
+                                              "age_decade", "race",
+                                              "total"), ]
+    filtered_demographics <- filtered_demographics[!(filtered_demographics[["value"]] %in%
+                                                       c("Male to female", "Female to male",
+                                                         "unknown")), ]
+    return(filtered_demographics)
+  }
+  demographics_all_time <- get_race_ethnicity_demographics(mc)
+
+  mc_last_month <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(), "month"), ]
+  mc_last_month <- mc[as.Date(mc[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
+
+  demographics_last_month <- get_race_ethnicity_demographics(mc_last_month)
+
+  write.xlsx(mc_all_time, file=paste0(Sys.Date(),"race_ethnicity_demographics.csv"), sheetName="All-Time", row.names=FALSE)
+
+  write.csv(demographics, ,
+            row.names = FALSE)
 }

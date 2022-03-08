@@ -6,7 +6,8 @@
 
 animate_error_bar <- function(mc_filtered,
                               demographic = FALSE,
-                              moving_scale = FALSE) {
+                              moving_scale = FALSE,
+                              path = "./") {
   mc_filtered <- mc_filtered[mc_filtered[["age"]] <= 90, ]
   for (month in as.character(seq(lubridate::ymd("2013-02-01"),
                                  lubridate::floor_date(Sys.Date(), "month"),
@@ -81,14 +82,14 @@ animate_error_bar <- function(mc_filtered,
    nframes = length(as.character(seq(lubridate::ymd("2013-02-01"),
                                      lubridate::floor_date(Sys.Date(), "month"),
                                      by = "week"))))
-  gganimate::anim_save(paste0(demographic, "_error_bar_weekly.gif"), animation)
+  gganimate::anim_save(paste0(path, demographic, "_error_bar_weekly.gif"), animation)
   if (moving_scale == TRUE) {
     p <- p + gganimate::view_follow()
     animation <- gganimate::animate(p,
      nframes = length(as.character(seq(lubridate::ymd("2013-02-01"),
                                     lubridate::floor_date(Sys.Date(), "month"),
                                     by = "week"))))
-    gganimate::anim_save(paste0(demographic,
+    gganimate::anim_save(paste0(path, demographic,
                                 "_unfixed_axis_error_bar_weekly.gif"),
                          animation)
   }

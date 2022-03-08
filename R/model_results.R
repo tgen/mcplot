@@ -135,7 +135,8 @@ split_demo <- function(model) {
 plot_model_results <- function(mc, plain_title = "", demographic = "age",
                                      demographic_subset = FALSE, smooth = FALSE,
                                      game = "totalcorrect",
-                                     model_results = NA) {
+                                     model_results = NA,
+                                     path = "./") {
   if (is.na(model_results)) {
     model_results <- mcdata::mc_model(mc_filtered)
   }
@@ -193,7 +194,7 @@ plot_model_results <- function(mc, plain_title = "", demographic = "age",
   } else {
     p <- p + my_theme("bottom_right")
   }
-  name <- paste0(demographic, "_line_plot.png")
+  name <- paste0(path, demographic, "_line_plot.png")
   ggplot2::ggsave(name, p, "png")
   return(p)
 }
