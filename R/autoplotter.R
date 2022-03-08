@@ -1,8 +1,12 @@
 #' Run the autoplotter
+#' @param prod (optional) Default = FALSE. Indicates if this is running on production
+#' @param geo (optional) Default = TRUE. Set to FALSE to remove sf dependency
+#' @param upload (optional) Default = FALSE. To upload output to drive, set this equal to drive folder ID
 #' @importFrom magrittr %>%
 #' @export
-run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
-  if (mc_tidy == FALSE){
+run_autoplotter <- function(prod = FALSE, geo = TRUE,
+                            upload = FALSE) {
+  if (prod == FALSE){
     mc_filtered <- mcdata::mc_download(datatype = "filtered") %>%
       mcdata::remove_svRT_outliers(.)
   } else {
@@ -392,6 +396,13 @@ run_autoplotter <- function(mc_tidy = FALSE, geo = TRUE) {
     animate_error_bar(mc_filtered, "education_attainment", TRUE,
                       path = animations_path)
   }
+
+  #Upload to drive
+  if (upload != FALSE){
+    zip_name <- paste0(dir_name, ".zip")
+    utils::zip(zip_name, dir_name)
+    drive_upload(zip_name, path=as_id(upload))
+  }
 }
 
 #' Run monthly NIH graphs
@@ -440,8 +451,11 @@ run_monthly_graphs <- function(mc) {
 
   demographics_last_month <- get_race_ethnicity_demographics(mc_last_month)
 
-  write.xlsx(mc_all_time, file=paste0(Sys.Date(),"race_ethnicity_demographics.csv"), sheetName="All-Time", row.names=FALSE)
+  xlsx::write.xlsx(demographics_all_time,
+                   file=paste0(Sys.Date(),"race_ethnicity_demographics.xlsx"),
+                   sheetName="All-Time", row.names=FALSE)
+  xlsx::write.xlsx(demographics_last_month,
+                   file=paste0(Sys.Date(),"race_ethnicity_demographics.xlsx"),
+                   sheetName="Last-Month", append = TRUE,row.names=FALSE)
 
-  write.csv(demographics, ,
-            row.names = FALSE)
 }

@@ -4,7 +4,15 @@
 \alias{plot_demographic_barplot}
 \title{Generate a demographic barplot from an mc object}
 \usage{
-plot_demographic_barplot(mc, demographic, title = "", subset = FALSE)
+plot_demographic_barplot(
+  mc,
+  demographic,
+  title = "",
+  subset = FALSE,
+  percentage = TRUE,
+  age_decade = FALSE,
+  path = "./"
+)
 }
 \arguments{
 \item{mc}{An mc object from the mcdata package.}

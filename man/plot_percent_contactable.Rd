@@ -4,7 +4,7 @@
 \alias{plot_percent_contactable}
 \title{Contactable Lineplot}
 \usage{
-plot_percent_contactable(mc, demographic = FALSE)
+plot_percent_contactable(mc, demographic = FALSE, demographic_subset = FALSE)
 }
 \arguments{
 \item{mc}{An mc object from the mcdata package.}

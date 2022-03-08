@@ -8,6 +8,8 @@ plot_projected_participants(
   mc,
   start_date = "2020-01-01",
   end_date = "2030-01-01",
+  options = FALSE,
+  months_to_average = 6,
   goal = FALSE
 )
 }

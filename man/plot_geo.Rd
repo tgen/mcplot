@@ -4,7 +4,7 @@
 \alias{plot_geo}
 \title{Plot geographic participation data}
 \usage{
-plot_geo(mc, scale = "world")
+plot_geo(mc, scale = "world", path = "./")
 }
 \arguments{
 \item{mc}{An mc object from the mcdata package.}

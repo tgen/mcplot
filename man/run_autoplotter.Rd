@@ -4,7 +4,14 @@
 \alias{run_autoplotter}
 \title{Run the autoplotter}
 \usage{
-run_autoplotter(mc_tidy = FALSE, geo = TRUE)
+run_autoplotter(prod = FALSE, geo = TRUE, upload = FALSE)
+}
+\arguments{
+\item{prod}{(optional) Default = FALSE. Indicates if this is running on production}
+
+\item{geo}{(optional) Default = TRUE. Set to FALSE to remove sf dependency}
+
+\item{upload}{(optional) Default = FALSE. To upload output to drive, set this equal to drive folder ID}
 }
 \description{
 Run the autoplotter

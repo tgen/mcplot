@@ -11,7 +11,8 @@ plot_model_results(
   demographic_subset = FALSE,
   smooth = FALSE,
   game = "totalcorrect",
-  model_results = NA
+  model_results = NA,
+  path = "./"
 )
 }
 \arguments{
