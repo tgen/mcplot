@@ -401,7 +401,7 @@ run_autoplotter <- function(prod = FALSE, geo = TRUE,
   if (upload != FALSE){
     zip_name <- paste0(dir_name, ".zip")
     utils::zip(zip_name, dir_name)
-    googledrive::drive_upload(zip_name, path=as_id(upload))
+    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload))
   }
 }
 
