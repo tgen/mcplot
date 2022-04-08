@@ -399,6 +399,7 @@ run_autoplotter <- function(prod = FALSE, geo = TRUE,
 
   #Upload to drive
   if (upload != FALSE){
+    dir_name <- paste0("mc_plots")
     zip_name <- paste0(dir_name, ".zip")
     utils::zip(zip_name, dir_name)
     googledrive::drive_upload(zip_name, path = googledrive::as_id(upload))
