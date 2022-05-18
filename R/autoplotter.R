@@ -448,7 +448,7 @@ run_monthly_graphs <- function(mc) {
   demographics_all_time <- get_race_ethnicity_demographics(mc)
 
   mc_last_month <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(), "month"), ]
-  mc_last_month <- mc[as.Date(mc[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
+  mc_last_month <- mc_last_month[as.Date(mc_last_month[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
 
   demographics_last_month <- get_race_ethnicity_demographics(mc_last_month)
 
