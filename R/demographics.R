@@ -7,9 +7,15 @@
 plot_age_barplot <- function(mc,
                              title = "",
                              percentage = TRUE,
-                             age_decade = FALSE) {
+                             age_decade = FALSE,
+                             last_month = FALSE,
+                             path = FALSE) {
   mc <- mc[mc[["age"]] <= 90, ]
   mc <- mc[mc[["age"]] >= 18, ]
+  if (last_month == TRUE){
+    mc <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(), "month"), ]
+    mc <- mc[as.Date(mc[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
+  }
   if (age_decade == FALSE) {
     mc[["age"]] <- as.numeric(as.character(mc[["age"]]))
     df <- as.data.frame(table(mc[c("age")]))
@@ -61,7 +67,14 @@ plot_age_barplot <- function(mc,
     name <- "age_N"
   }
 
+  if (last_month == TRUE){
+    name <- paste0(name, "_last_month")
+  }
+
   name <- paste0(name, "_barplot.png")
+  if (path != FALSE){
+    name <- paste0(path, "/", name)
+  }
   ggplot2::ggsave(name, p, "png")
   return(p)
 }
@@ -76,7 +89,8 @@ plot_demographic_barplot <- function(mc, demographic,
                                     title = "", subset = FALSE,
                                     percentage = TRUE,
                                     age_decade = FALSE,
-                                    path = "./") {
+                                    path = "./",
+                                    upload = FALSE) {
   mc <- mc[mc[["age"]] <= 90, ]
   mc <- mc[mc[["age"]] >= 18, ]
   if (age_decade == FALSE) {

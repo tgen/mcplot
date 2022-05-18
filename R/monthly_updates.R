@@ -2,7 +2,7 @@
 #'
 #' @param mc mcdata object
 #' @export
-plot_participation_line <- function(mc, monthly = TRUE) {
+plot_participation_line <- function(mc, monthly = TRUE, path = FALSE) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
                         na.rm = TRUE)
@@ -42,8 +42,13 @@ plot_participation_line <- function(mc, monthly = TRUE) {
     ggplot2::geom_text(hjust = 0.5, vjust = -1) +
     ggplot2::theme(text = ggplot2::element_text(size = 15)) +
     modified_theme() +
-    ggplot2::scale_x_date(date_labels = "%b %Y")
-  ggplot2::ggsave(paste0(Sys.Date(), "_monthly_participation_lineplot.png"),
+    ggplot2::scale_x_date(date_labels = "%b %Y", date_breaks = "1 month")
+  if (path != FALSE){
+    save_path <- paste0(path, "/", Sys.Date(), "_monthly_participation_lineplot.png")
+  } else {
+    save_path <- paste0(Sys.Date(), "_monthly_participation_lineplot.png")
+  }
+  ggplot2::ggsave(save_path,
                   p, width = 8, height = 5)
   p
 }
@@ -52,7 +57,7 @@ plot_participation_line <- function(mc, monthly = TRUE) {
 #'
 #' @param mc mcdata object
 #' @export
-plot_participation_barplot <- function(mc) {
+plot_participation_barplot <- function(mc, path = FALSE) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   baseline_count <- sum(as.Date(mc[["created_at"]]) < as.Date("2021-10-01"),
                         na.rm = TRUE)
@@ -79,8 +84,14 @@ plot_participation_barplot <- function(mc) {
                   y = "Number of Participants Recruited (Monthly)") +
     ggplot2::scale_y_continuous(breaks = seq(0, 5500, 500),
                                 limits = c(0, 5500)) +
-    ggplot2::scale_x_date(date_labels = "%b %Y")
-  ggplot2::ggsave(paste0(Sys.Date(), "_monthly_participation_barplot.png"),
+    ggplot2::scale_x_date(date_labels = "%b %Y", date_breaks = "1 month")
+
+  if (path != FALSE){
+    save_path <- paste0(path, "/", Sys.Date(), "_monthly_participation_barplot.png")
+  } else {
+    save_path <- paste0(Sys.Date(), "_monthly_participation_barplot.png")
+  }
+  ggplot2::ggsave(save_path,
                   p, width = 8, height = 5)
   p
 }
@@ -179,7 +190,8 @@ plot_projected_participants <- function(mc, start_date = "2020-01-01",
 #' @export
 monthly_demographic_comparison <- function(mc,
                                            current_month = lubridate::floor_date(Sys.Date(), "month"),
-                                           last_month = current_month - months(1)) {
+                                           last_month = current_month - months(1),
+                                           path = FALSE) {
   mc <- dplyr::distinct(mc, user_id, .keep_all = TRUE)
   month1 <- lubridate::floor_date(last_month, "month")
   month2 <- lubridate::floor_date(current_month, "month")
@@ -197,5 +209,92 @@ monthly_demographic_comparison <- function(mc,
   demographics[["Delta"]] <- round(as.numeric(gsub("%", "",demographics[[paste0(month2, "_prop")]]))-as.numeric(gsub("%", "",demographics[[paste0(month1, "_prop")]])),2)
   demographics[["Delta"]] <- paste0(as.character(demographics[["Delta"]]),"%")
 
-  write.csv(demographics,paste0(month1, "_",month2,"_demographics.csv"), row.names = FALSE)
+  if (path != FALSE){
+    name <- paste0(path, "/", month1, "_",month2,"_demographics.csv")
+  } else {
+    name <- paste0(month1, "_",month2,"_demographics.csv")
+  }
+
+  write.csv(demographics,name, row.names = FALSE)
+}
+
+#' NIH Plots
+#'
+#' @param mc mcdata object
+#' @export
+nih_plots <- function(prod = FALSE, upload = FALSE) {
+
+  if (prod == FALSE){
+    mc_tidy <- mcdata::mc_download(datatype = "tidy")
+  } else {
+    mc_tidy <- mcdashboard::importData(prod = TRUE)
+  }
+
+  dir_name <- paste0("nih_plots")
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name)
+  }
+
+  mc_tidy <- dplyr::distinct(mc_tidy, user_id, .keep_all = TRUE)
+  plot_participation_line(mc_tidy, monthly = FALSE, path = dir_name)
+  plot_participation_barplot(mc_tidy, path = dir_name)
+  plot_age_barplot(mc_tidy, age_decade = TRUE, path = dir_name)
+  monthly_demographic_comparison(mc_tidy, path = dir_name)
+
+  mc <- mc_tidy
+  mc <- mc[mc[["age"]] <= 90, ]
+  mc <- mc[mc[["age"]] >= 18, ]
+  mc[["timeframe"]] <- "All Time"
+  mc_tmp <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(), "month"), ]
+  mc_tmp <- mc_tmp[as.Date(mc_tmp[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
+  mc_tmp[["timeframe"]] <- "Last Month"
+  mc <- rbind(mc, mc_tmp)
+
+  df <- as.data.frame(table(mc[c("age_decade", "timeframe")]))
+  df[["age"]] <- df[["age_decade"]]
+
+  df <- df %>%
+    dplyr::group_by(timeframe) %>%
+    dplyr::mutate(totals = sum(Freq))
+  df[["percentages"]] <- df[["Freq"]]/df[["totals"]]
+
+  p <- ggplot2::ggplot(df,
+                       ggplot2::aes_string(x = "age", y = "percentages"))
+
+  p <- p +
+    ggplot2::geom_bar(stat = "identity") +
+    my_theme() +
+    ggplot2::scale_fill_manual(values = mcdata::mc_palette()) +
+    ggplot2::scale_color_manual(values = mcdata::mc_palette())
+  p <- p +
+    ggplot2::labs(y = "Percentage of Participants") +
+    ggplot2::scale_y_continuous(labels = scales::percent,
+                                breaks = scales::pretty_breaks(n = 10))
+
+  p <- p +
+    ggplot2::labs(x = "Age Decade")
+  p <- p +
+    ggplot2::facet_grid(timeframe ~ .)
+
+  p
+
+
+
+
+
+  name <- "age_percentage"
+
+  name <- paste0(name, "_last_month")
+
+  name <- paste0(name, "_barplot.png")
+  name <- paste0(dir_name, "/", name)
+
+  ggplot2::ggsave(name, p, "png")
+
+  if (upload != FALSE){
+    dir_name <- paste0("nih_plots")
+    zip_name <- paste0(dir_name, ".zip")
+    utils::zip(zip_name, dir_name)
+    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload))
+  }
 }

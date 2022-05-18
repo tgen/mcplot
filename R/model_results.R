@@ -116,6 +116,10 @@ split_demo <- function(model) {
     model[model["term"] == "drug_abuseTRUE", ]["Demographic"] <- "drug_abuse"
     model[model["term"] == "drug_abuseTRUE", ]["Subset"] <- "TRUE"
   }
+  if ("is_ruralTRUE" %in% model[["term"]]){
+    model[model["term"] == "is_ruralTRUE", ]["Demographic"] <- "is_rural"
+    model[model["term"] == "is_ruralTRUE", ]["Subset"] <- "TRUE"
+  }
   model[["Legend"]] <- paste0(model[["Subset"]], "\np: ", formatC(model[["Pr(>|t|)"]], format = "e", digits = 2), "\nEffect Size: ",
                              format(model[["Estimate"]], digits = 1))
   model
