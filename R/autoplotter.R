@@ -409,13 +409,20 @@ run_autoplotter <- function(prod = FALSE, geo = TRUE,
 #' Run monthly NIH graphs
 #' @importFrom magrittr %>%
 #' @export
-run_monthly_graphs <- function(mc) {
-  for (x in unique(mc[!is.na(mc[["race"]]),][["race"]])){
-    plot_demographic_barplot(mc, "race", subset = x, age_decade = TRUE, percentage = FALSE)
-    plot_demographic_barplot(mc, "race", subset = x, age_decade = TRUE)
+run_monthly_graphs <- function(mc = NULL) {
+  if (is.null(mc)){
+    mc <- mcdata::mc_download("tidy")
   }
-  plot_age_barplot(mc_tidy, percentage = TRUE, age_decade = TRUE)
-  plot_age_barplot(mc_tidy, percentage = FALSE, age_decade = TRUE)
+  # Subset by months
+  mc_last_month <- mc[as.Date(mc[["created_at"]]) < lubridate::floor_date(Sys.Date(), "month"), ]
+  mc_last_month <- mc[as.Date(mc[["created_at"]]) > lubridate::floor_date(Sys.Date(), "month") - months(1), ]
+
+  for (x in unique(mc_last_month[!is.na(mc_last_month[["race"]]),][["race"]])){
+    plot_demographic_barplot(mc_last_month, "race", subset = x, age_decade = TRUE, percentage = FALSE)
+    plot_demographic_barplot(mc_last_month, "race", subset = x, age_decade = TRUE)
+  }
+  plot_age_barplot(mc_last_month, percentage = TRUE, age_decade = TRUE)
+  plot_age_barplot(mc_last_month, percentage = FALSE, age_decade = TRUE)
   get_race_ethnicity_demographics <- function(mc){
     mc <- mc[!is.na(mc[["race"]]), ]
     demographics <- mcdata::report_demographics(mcs = list(mc[mc[["race"]] == "White", ],
