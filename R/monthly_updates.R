@@ -292,6 +292,6 @@ nih_plots <- function(prod = FALSE, upload = FALSE) {
     dir_name <- paste0("nih_plots")
     zip_name <- paste0(dir_name, ".zip")
     utils::zip(zip_name, dir_name)
-    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload))
+    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload), overwrite = TRUE)
   }
 }
