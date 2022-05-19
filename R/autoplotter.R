@@ -18,7 +18,7 @@ run_autoplotter <- function(prod = FALSE, geo = TRUE,
 
   mc_model_results <- mcdata::mc_model(mc_filtered)
   # Create directory for all of the plots
-  dir_name <- paste0(Sys.Date(), "_mc_plots")
+  dir_name <- paste0("mc_plots")
   if (!dir.exists(dir_name)) {
     dir.create(dir_name)
   }
@@ -399,10 +399,10 @@ run_autoplotter <- function(prod = FALSE, geo = TRUE,
 
   #Upload to drive
   if (upload != FALSE){
-    dir_name <- paste0("mc_plots")
+    dir_name <- "mc_plots"
     zip_name <- paste0(dir_name, ".zip")
     utils::zip(zip_name, dir_name)
-    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload))
+    googledrive::drive_upload(zip_name, path = googledrive::as_id(upload), overwrite = TRUE)
   }
 }
 
