@@ -225,11 +225,7 @@ monthly_demographic_comparison <- function(mc,
 #' @export
 nih_plots <- function(prod = FALSE, upload = FALSE) {
 
-  if (prod == FALSE){
-    mc_tidy <- mcdata::mc_download(datatype = "tidy")
-  } else {
-    mc_tidy <- mcdashboard::importData(prod = TRUE)
-  }
+  mc_tidy <- mcdata::mc_download(datatype = "tidy")
 
   dir_name <- paste0("nih_plots")
   if (!dir.exists(dir_name)) {
