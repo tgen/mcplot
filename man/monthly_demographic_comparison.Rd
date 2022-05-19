@@ -7,7 +7,8 @@
 monthly_demographic_comparison(
   mc,
   current_month = lubridate::floor_date(Sys.Date(), "month"),
-  last_month = current_month - months(1)
+  last_month = current_month - months(1),
+  path = FALSE
 )
 }
 \arguments{

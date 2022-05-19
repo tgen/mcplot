@@ -4,7 +4,7 @@
 \alias{plot_participation_line}
 \title{Participation N Line}
 \usage{
-plot_participation_line(mc, monthly = TRUE)
+plot_participation_line(mc, monthly = TRUE, path = FALSE)
 }
 \arguments{
 \item{mc}{mcdata object}

@@ -220,7 +220,8 @@ monthly_demographic_comparison <- function(mc,
 
 #' NIH Plots
 #'
-#' @param mc mcdata object
+#' @param prod TRUE or FALSE if being used in production environment
+#' @param upload FALSE or GDrive ID for upload location
 #' @export
 nih_plots <- function(prod = FALSE, upload = FALSE) {
 

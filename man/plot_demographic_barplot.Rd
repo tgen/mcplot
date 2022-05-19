@@ -11,7 +11,8 @@ plot_demographic_barplot(
   subset = FALSE,
   percentage = TRUE,
   age_decade = FALSE,
-  path = "./"
+  path = "./",
+  upload = FALSE
 )
 }
 \arguments{

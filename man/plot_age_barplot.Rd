@@ -4,7 +4,14 @@
 \alias{plot_age_barplot}
 \title{Plot Age Barplot}
 \usage{
-plot_age_barplot(mc, title = "", percentage = TRUE, age_decade = FALSE)
+plot_age_barplot(
+  mc,
+  title = "",
+  percentage = TRUE,
+  age_decade = FALSE,
+  last_month = FALSE,
+  path = FALSE
+)
 }
 \arguments{
 \item{mc}{An mc object from the mcdata package.}

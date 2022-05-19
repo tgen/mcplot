@@ -4,7 +4,7 @@
 \alias{plot_participation_barplot}
 \title{Participation N Barplot}
 \usage{
-plot_participation_barplot(mc)
+plot_participation_barplot(mc, path = FALSE)
 }
 \arguments{
 \item{mc}{mcdata object}

@@ -2,6 +2,7 @@
 
 export(animate_error_bar)
 export(monthly_demographic_comparison)
+export(nih_plots)
 export(plot_age_barplot)
 export(plot_demographic_barplot)
 export(plot_geo)

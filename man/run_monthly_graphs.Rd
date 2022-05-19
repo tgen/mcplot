@@ -4,7 +4,7 @@
 \alias{run_monthly_graphs}
 \title{Run monthly NIH graphs}
 \usage{
-run_monthly_graphs(mc)
+run_monthly_graphs(mc = NULL)
 }
 \description{
 Run monthly NIH graphs
