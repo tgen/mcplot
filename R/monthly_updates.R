@@ -225,8 +225,24 @@ monthly_demographic_comparison <- function(mc,
 #' @export
 nih_plots <- function(prod = FALSE, upload = FALSE) {
 
-  mc_tidy <- mcdata::mc_download(datatype = "tidy")
+  convert_set_notation <- function(mc){
+    mc$age_decade_reformatted <- NA
+    mc <- mc %>%
+      filter(!is.na(mc$age_decade))
+    mc[mc[["age_decade"]] == "[18,20)",]$age_decade_reformatted <- "18-19"
+    mc[mc[["age_decade"]] == "[20,30)",]$age_decade_reformatted <- "20-29"
+    mc[mc[["age_decade"]] == "[30,40)",]$age_decade_reformatted <- "30-39"
+    mc[mc[["age_decade"]] == "[40,50)",]$age_decade_reformatted <- "40-49"
+    mc[mc[["age_decade"]] == "[50,60)",]$age_decade_reformatted <- "50-59"
+    mc[mc[["age_decade"]] == "[60,70)",]$age_decade_reformatted <- "60-69"
+    mc[mc[["age_decade"]] == "[70,80)",]$age_decade_reformatted <- "70-79"
+    mc[mc[["age_decade"]] == "[80,90)",]$age_decade_reformatted <- "80-89"
+    mc$age_decade <- mc$age_decade_reformatted
+    mc
+  }
 
+  mc_tidy <- mcdata::mc_download(datatype = "tidy")
+  mc_tidy <- convert_set_notation(mc_tidy)
   dir_name <- paste0("nih_plots")
   if (!dir.exists(dir_name)) {
     dir.create(dir_name)
