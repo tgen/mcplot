@@ -91,6 +91,7 @@ plot_demographic_barplot <- function(mc, demographic,
                                     percentage = TRUE,
                                     age_decade = FALSE,
                                     path = "./",
+                                    name = "",
                                     upload = FALSE) {
   mc <- mc[mc[["age"]] <= 90, ]
   mc <- mc[mc[["age"]] >= 18, ]
@@ -167,9 +168,9 @@ plot_demographic_barplot <- function(mc, demographic,
 
 
   if (subset == FALSE){
-    name <- paste0(demographic)
+    name <- paste0(name, demographic)
   } else {
-    name <- paste0(demographic, subset)
+    name <- paste0(name, demographic, subset)
   }
 
   if (percentage == TRUE){
