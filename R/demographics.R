@@ -9,7 +9,8 @@ plot_age_barplot <- function(mc,
                              percentage = TRUE,
                              age_decade = FALSE,
                              last_month = FALSE,
-                             path = FALSE) {
+                             path = FALSE,
+                             name = "") {
   mc <- mc[mc[["age"]] <= 90, ]
   mc <- mc[mc[["age"]] >= 18, ]
   if (last_month == TRUE){
@@ -62,9 +63,9 @@ plot_age_barplot <- function(mc,
   }
 
   if (percentage == TRUE){
-    name <- "age_percentage"
+    name <- paste0(name,"age_percentage")
   } else {
-    name <- "age_N"
+    name <- paste0(name,"age_N")
   }
 
   if (last_month == TRUE){
