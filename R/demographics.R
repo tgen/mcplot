@@ -192,7 +192,8 @@ plot_demographic_barplot <- function(mc, demographic,
 #' @param demographic (optional) Default = FALSE. A string of the demographic you wish to plot.
 #' @export
 plot_percent_contactable <- function(mc, demographic = FALSE,
-                                     demographic_subset = FALSE){
+                                     demographic_subset = FALSE,
+                                     title = ""){
   mc <- mc[mc[["age"]] <= 90, ]
   if (demographic == FALSE){
     df <- as.data.frame(table(mc[c("age", "contactable")]))
@@ -222,7 +223,7 @@ plot_percent_contactable <- function(mc, demographic = FALSE,
 
   p <- p +
     ggplot2::geom_line() +
-    ggplot2::labs(x = "Age", y = "Percentage of Participants") +
+    ggplot2::labs(x = "Age", y = "Percentage of Participants", title = title) +
     ggplot2::scale_y_continuous(labels = scales::percent,
                                 breaks = scales::pretty_breaks(n = 10)) +
     ggplot2::scale_x_continuous(breaks = seq(from = 20, to = 100, by = 5)) +
